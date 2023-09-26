@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: web-site-checker
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 256
+
+Parameters:
+  Env:
+    Type: String
+
+Resources:
+  WebSiteCheckerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "${Env}-web-site-checker-function"
+      CodeUri: web_site_checker/
+      Handler: app.WebSiteChecker::Handler.process
+      Runtime: ruby3.2
+      Architectures:
+        - x86_64
+
+Outputs:
+  WebSiteCheckerFunction:
+    Description: "Web Site Checker Lambda Function ARN"
+    Value: !GetAtt WebSiteCheckerFunction.Arn
