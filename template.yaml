@@ -22,6 +22,24 @@ Resources:
       Architectures:
         - x86_64
 
+  WebSiteCheckerHistoryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${Env}-web-site-checker-history"
+      KeySchema:
+        - AttributeName: url
+          KeyType: HASH
+        - AttributeName: xpath
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: url
+          AttributeType: S
+        - AttributeName: xpath
+          AttributeType: S
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
 Outputs:
   WebSiteCheckerFunction:
     Description: "Web Site Checker Lambda Function ARN"
