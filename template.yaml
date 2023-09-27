@@ -22,7 +22,37 @@ Resources:
       Architectures:
         - x86_64
 
+  WebSiteCheckerHistoryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${Env}-web-site-checker-history"
+      KeySchema:
+        - AttributeName: url
+          KeyType: HASH
+        - AttributeName: xpath
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: url
+          AttributeType: S
+        - AttributeName: xpath
+          AttributeType: S
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  WebSiteCheckerNotificationTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub "${Env}-web-site-checker-notification"
+      DisplayName: !Sub "${Env}-web-site-checker-notification"
+
 Outputs:
   WebSiteCheckerFunction:
     Description: "Web Site Checker Lambda Function ARN"
     Value: !GetAtt WebSiteCheckerFunction.Arn
+  WebSiteCheckerHistoryTable:
+    Description: "History Table ARN"
+    Value: !GetAtt WebSiteCheckerHistoryTable.Arn
+  WebSiteCheckerNotificationTopic:
+    Description: "Notification Topic ARN"
+    Value: !GetAtt WebSiteCheckerNotificationTopic.TopicArn
