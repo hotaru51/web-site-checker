@@ -50,3 +50,9 @@ Outputs:
   WebSiteCheckerFunction:
     Description: "Web Site Checker Lambda Function ARN"
     Value: !GetAtt WebSiteCheckerFunction.Arn
+  WebSiteCheckerHistoryTable:
+    Description: "History Table ARN"
+    Value: !GetAtt WebSiteCheckerHistoryTable.Arn
+  WebSiteCheckerNotificationTopic:
+    Description: "Notification Topic ARN"
+    Value: !GetAtt WebSiteCheckerNotificationTopic.TopicArn
