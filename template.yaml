@@ -40,6 +40,12 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
 
+  WebSiteCheckerNotificationTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub "${Env}-web-site-checker-notification"
+      DisplayName: !Sub "${Env}-web-site-checker-notification"
+
 Outputs:
   WebSiteCheckerFunction:
     Description: "Web Site Checker Lambda Function ARN"
