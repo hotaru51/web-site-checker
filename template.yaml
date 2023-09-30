@@ -21,6 +21,20 @@ Resources:
       Runtime: ruby3.2
       Architectures:
         - x86_64
+      Policies:
+        - Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:PutItem
+                - dynamodb:Query
+              Resource:
+                - !GetAtt WebSiteCheckerHistoryTable.Arn
+            - Effect: Allow
+              Action:
+                - sns:Publish
+              Resource:
+                - !GetAtt WebSiteCheckerNotificationTopic.TopicArn
 
   WebSiteCheckerHistoryTable:
     Type: AWS::DynamoDB::Table
@@ -50,6 +64,9 @@ Outputs:
   WebSiteCheckerFunction:
     Description: "Web Site Checker Lambda Function ARN"
     Value: !GetAtt WebSiteCheckerFunction.Arn
+  WebSiteCheckerFunctionRole:
+    Description: "Web Site Checker Lambda Function Role ARN"
+    Value: !GetAtt WebSiteCheckerFunctionRole.Arn
   WebSiteCheckerHistoryTable:
     Description: "History Table ARN"
     Value: !GetAtt WebSiteCheckerHistoryTable.Arn
