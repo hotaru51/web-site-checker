@@ -21,6 +21,9 @@ Resources:
       Runtime: ruby3.2
       Architectures:
         - x86_64
+      Environment:
+        Variables:
+          HISTORY_TABLE_NAME: !Ref WebSiteCheckerHistoryTable
       Policies:
         - Version: 2012-10-17
           Statement:
