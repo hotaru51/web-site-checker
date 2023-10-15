@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'time'
 require 'aws-sdk-dynamodb'
 
 require_relative 'history_data'
@@ -26,6 +27,33 @@ module WebSiteChecker
         'date': history.iso_date_str
       }
       @table.put_item(item: hist_item)
+    end
+
+    # 履歴テーブルから履歴を取得する
+    # @param url [String] URL
+    # @param xpath [String] XPath
+    # @return [WebSiteChecker::HistroyData] 取得した履歴データ
+    # @return [nil] 取得できなかった場合
+    def read_histroy(url, xpath)
+      hist_key = {
+        'url': url,
+        'xpath': xpath
+      }
+      res = @table.get_item(key: hist_key)
+
+      hist_data = nil
+      unless res[:item].nil?
+        item = res[:item]
+        p item
+        hist_data = WebSiteChecker::HistroyData.new
+        hist_data.url = item['url']
+        hist_data.xpath = item['xpath']
+        hist_data.subject = item['subject']
+        hist_data.text = item['text']
+        hist_data.date = Time.parse(item['date'])
+      end
+
+      hist_data
     end
   end
 end
