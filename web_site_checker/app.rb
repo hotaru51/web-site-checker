@@ -51,6 +51,10 @@ module WebSiteChecker
         end
       end
 
+      # 新しい履歴データの書き込み
+      logger.info("write new history data: #{new_hist}")
+      hist_table.write_histroy(new_hist)
+
       {statusCode: 200, body: 'done'}.to_json
     end
   end
