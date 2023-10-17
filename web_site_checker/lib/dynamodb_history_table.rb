@@ -44,7 +44,6 @@ module WebSiteChecker
       hist_data = nil
       unless res[:item].nil?
         item = res[:item]
-        p item
         hist_data = WebSiteChecker::HistroyData.new
         hist_data.url = item['url']
         hist_data.xpath = item['xpath']
