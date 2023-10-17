@@ -26,6 +26,14 @@ module WebSiteChecker
       text = cl.search(xpath)
       logger.info("clawler result: #{text}")
 
+      # 新しい履歴データの生成
+      new_hist = WebSiteChecker::HistroyData.new
+      new_hist.url = url
+      new_hist.xpath = xpath
+      new_hist.subject = subject
+      new_hist.text = text
+      logger.info("new history data: #{new_hist}")
+
       {statusCode: 200, body: 'done'}.to_json
     end
   end
