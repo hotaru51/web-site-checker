@@ -20,7 +20,7 @@ module WebSiteChecker
     # @param history [WebSiteChecker::HistroyData] 新しい履歴データ
     # @return [Boolean] 更新有無
     def update?(history)
-      @text == history.text
+      @text != history.text
     end
 
     # ISO 8601形式の日付を返す
