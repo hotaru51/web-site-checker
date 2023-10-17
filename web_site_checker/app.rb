@@ -40,6 +40,17 @@ module WebSiteChecker
       prev_hist = hist_table.read_histroy(url, xpath)
       logger.info("previous history data: #{prev_hist}")
 
+      # 前回履歴が存在する場合は前回履歴と比較
+      unless prev_hist.nil?
+        logger.info("compare text: #{{ new: new_hist.text, prev: prev_hist.text }.to_json}")
+        if new_hist.update?(prev_hist)
+          logger.info('notify web page updates')
+          # TODO: SNS Topicへのpublish実装
+        else
+          logger.info('web page is not updated')
+        end
+      end
+
       {statusCode: 200, body: 'done'}.to_json
     end
   end
