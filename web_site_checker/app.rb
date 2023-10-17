@@ -34,6 +34,12 @@ module WebSiteChecker
       new_hist.text = text
       logger.info("new history data: #{new_hist}")
 
+      # 前回履歴データの読み込み
+      hist_table = WebSiteChecker::DynamoDBHistoryTable.new(HISTORY_TABLE_NAME)
+      logger.info("read previous history data: url=#{url}, xpath=#{xpath}")
+      prev_hist = hist_table.read_histroy(url, xpath)
+      logger.info("previous history data: #{prev_hist}")
+
       {statusCode: 200, body: 'done'}.to_json
     end
   end
