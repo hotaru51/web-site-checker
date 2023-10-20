@@ -55,7 +55,7 @@ module WebSiteChecker
       logger.info("write new history data: #{new_hist}")
       hist_table.write_histroy(new_hist)
 
-      {statusCode: 200, body: 'done'}.to_json
+      { statusCode: 200, body: 'done' }.to_json
     end
   end
 end
