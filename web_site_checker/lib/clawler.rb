@@ -19,7 +19,7 @@ module WebSiteChecker
     # Webページを取得する
     # @return [String] Webページbody
     def fetch
-      conn = Faraday.new(url, headers: { 'User-Agent': USER_AGENT })
+      conn = Faraday.new(@url, headers: { 'User-Agent': USER_AGENT })
       res = conn.get
       @page = res.body
     end
