@@ -24,6 +24,7 @@ Resources:
       Environment:
         Variables:
           HISTORY_TABLE_NAME: !Ref WebSiteCheckerHistoryTable
+          TOPIC_ARN: !Ref WebSiteCheckerNotificationTopic
       Policies:
         - Version: 2012-10-17
           Statement:

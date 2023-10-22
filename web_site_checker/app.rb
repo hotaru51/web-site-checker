@@ -2,6 +2,7 @@
 
 require 'json'
 require 'logger'
+require 'aws-sdk-sns'
 
 require_relative 'lib/history_data'
 require_relative 'lib/clawler'
@@ -11,6 +12,7 @@ module WebSiteChecker
   # Lambda handler
   class Handler
     HISTORY_TABLE_NAME = ENV['HISTORY_TABLE_NAME']
+    TOPIC_ARN = ENV['TOPIC_ARN']
 
     def self.process(event:, context:)
       logger = Logger.new($stdout)
@@ -45,7 +47,7 @@ module WebSiteChecker
         logger.info("compare text: #{{ new: new_hist.text, prev: prev_hist.text }.to_json}")
         if new_hist.update?(prev_hist)
           logger.info('notify web page updates')
-          # TODO: SNS Topicへのpublish実装
+          notify_update(new_hist, prev_hist)
         else
           logger.info('web page is not updated')
         end
@@ -56,6 +58,30 @@ module WebSiteChecker
       hist_table.write_histroy(new_hist)
 
       { statusCode: 200, body: 'done' }.to_json
+    end
+
+    # SNS Topicにページ更新通知を送信する
+    # @param new_hist [WebSiteChecker::HistroyData] 新しい履歴データ
+    # @param prev_hist [WebSiteChecker::HistroyData] 前回履歴データ
+    # @return [Aws::SNS::Types::PublishResponse] pulish結果
+    def self.notify_update(new_hist, prev_hist)
+      sns_resource = Aws::SNS::Resource.new
+      topic = sns_resource.topic(TOPIC_ARN)
+
+      topic_subject = "[WebSiteChecker] #{new_hist.subject}"
+      msg = <<~MESSAGE
+        [#{new_hist.subject}]
+
+        Webページの更新を検知しました。
+
+        [更新前]
+        #{prev_hist.text}
+
+        [更新後]
+        #{new_hist.text}
+      MESSAGE
+
+      topic.publish(subject: topic_subject, message: msg)
     end
   end
 end
