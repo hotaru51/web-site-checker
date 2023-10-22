@@ -6,7 +6,7 @@ version = 0.1
 [default.global.parameters]
 stack_name = "@@env@@-web-site-checker"
 s3_bucket = "@@bucket@@"
-s3_prefix = "web-site-checker"
+s3_prefix = "@@env@@-web-site-checker"
 
 [default.build.parameters]
 cached = true
