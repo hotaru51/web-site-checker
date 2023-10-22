@@ -4,12 +4,12 @@
 
 ## 構成
 
-```
-[EventBridge] --定期実行--> [Lambda] --Webページ取得--> [監視対象Webページ]
-                               |
-                         履歴データ管理
-                               |
-                           [DynamoDB]
+```mermaid
+flowchart TD
+    EventBridge -- 定期実行 --> Lambda
+    Lambda -- ページ取得 --> WebPage(監視対象Webページ)
+    Lambda -- 履歴管理 --- DynamoDB[(DynamoDB)]
+    Lambda -- 通知 ---> SNS[SNS Topic]
 ```
 
 ## デプロイ
