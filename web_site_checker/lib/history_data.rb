@@ -17,7 +17,7 @@ module WebSiteChecker
     end
 
     # textを比較し、変更があればtrueを返す
-    # @param history [WebSiteChecker::HistroyData] 新しい履歴データ
+    # @param history [WebSiteChecker::HistroyData] 比較対象の履歴データ
     # @return [Boolean] 更新有無
     def update?(history)
       @text != history.text
