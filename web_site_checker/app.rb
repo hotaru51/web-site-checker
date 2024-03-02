@@ -74,6 +74,9 @@ module WebSiteChecker
 
         Webページの更新を検知しました。
 
+        [対象URL]
+        #{new_hist.url}
+
         [更新前]
         #{prev_hist.text}
 
